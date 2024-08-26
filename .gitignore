@@ -170,3 +170,5 @@ dist
 .DS_Store
 
 wrangler.toml
+package-lock.json
+package.json
