@@ -1,6 +1,6 @@
 {
   "name": "iambrian-email-slack",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "devDependencies": {
     "wrangler": "3.72.2"
   },
