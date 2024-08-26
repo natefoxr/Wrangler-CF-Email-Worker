@@ -1,0 +1,11 @@
+name = "my-email-slack"
+main = "./src/index.js"
+
+compatibility_date = "2024-08-26"
+
+# Environment variables
+[vars]
+CATCHALL_URL = "https://hooks.slack.com/services/AAAAAAAAAA/AAAAAAAAAA/AAAAAAAAAA"
+FOOD_URL = "https://hooks.slack.com/services/BBBBBBBBB/BBBBBBBBB/BBBBBBBBB"
+SERVICES_URL = "https://hooks.slack.com/services/CCCCCCCC/CCCCCCCC/CCCCCCCC"
+SPAM_URL = "https://hooks.slack.com/services/DDDDDDDDDD/DDDDDDDDDD/DDDDDDDDDD"
