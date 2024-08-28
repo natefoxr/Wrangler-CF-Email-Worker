@@ -10,6 +10,7 @@ export default {
         const to = message.to;
         const date = message.headers.get('date');
         const body = aEmail.text;
+        const attachments = aEmail.attachments || [];
 
         const simpleMessage = {
             text: `From: ${ffrom}, To: ${to}, Subject: ${subject}, Date: ${date}, Body: ${body}`
@@ -70,6 +71,42 @@ export default {
                 ...bodyBlocks
             ]
         };
+        const Discord = {
+            blocks: [
+                {
+                    type: "section",
+                    text: {
+                        type: "mrkdwn",
+                        text: `*Inbound Email Received*`
+                    }
+                },
+                {
+                    type: "section",
+                    fields: [
+                        {
+                            type: "mrkdwn",
+                            text: `*From:*\n${ffrom}`
+                        },
+                        {
+                            type: "mrkdwn",
+                            text: `*To:*\n${to}`
+                        },
+                        {
+                            type: "mrkdwn",
+                            text: `*Subject:*\n${subject}`
+                        },
+                        {
+                            type: "mrkdwn",
+                            text: `*Date:*\n${date}`
+                        },
+                        {
+                            type: "mrkdwn",
+                            text: `\n\n*Body:*\n${body}`
+                        }
+                    ]
+                },
+            ]
+        }
 
         const urlMap = {
             "food": env.FOOD_URL,
@@ -86,7 +123,7 @@ export default {
             }
         }
 
-        const response = await fetch(url, {
+        const responseSlack = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json', // Set the correct content type
@@ -94,6 +131,28 @@ export default {
             body: JSON.stringify(slackMessage)
         });
 
-        console.log(`Slack response: ${response.status}`);
+        // Error logging dor slack webhook post.
+        console.log(`Slack response: ${responseSlack.status}`);
+        if (responseSlack.status == 200) {
+            console.log(`Successfully posted! Message info: ${simpleMessage}`)
+        } else {
+            console.log(`Failed post. Message info: ${simpleMessage}\n\n${body}`)
+        }
+
+        const responseDiscord = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Set the correct content type
+            },
+            body: JSON.stringify(slackMessage)
+        });
+
+        // Error logging dor discord webhook post.
+        console.log(`Discord response: ${responseDiscord.status}`);
+        if (responseDiscord.status == 200) {
+            console.log(`Successfully posted! Message info: ${simpleMessage}`)
+        } else {
+            console.log(`Failed post. Message info: ${simpleMessage}\n\n${body}`)
+        }
     }
 }
